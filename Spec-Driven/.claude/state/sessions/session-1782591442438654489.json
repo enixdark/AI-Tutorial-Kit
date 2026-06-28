@@ -1,0 +1,44 @@
+{
+  "changes_this_session": [],
+  "cwd": "/home/cqshinn/GIT/AITutorial/Spec-Driven",
+  "duration_minutes": 0,
+  "ended_at": "2026-06-27T20:17:28Z",
+  "event_seq": 0,
+  "fork_count": 0,
+  "git": {
+    "branch": "unknown",
+    "last_commit": "none",
+    "uncommitted_changes": 0
+  },
+  "harness_mem": {
+    "healthy": true,
+    "last_checked": "2026-06-27T20:17:22Z",
+    "last_error": ""
+  },
+  "intent": "literal",
+  "last_event_id": "",
+  "last_message_hash": "4b898ec652830afc",
+  "last_message_length": 272,
+  "memory_logged": true,
+  "orchestration": {
+    "max_state_retries": 3,
+    "retry_backoff_seconds": 10
+  },
+  "parent_session_id": null,
+  "plans": {
+    "completed_tasks": 0,
+    "exists": false,
+    "last_modified": 0,
+    "pending_tasks": 0,
+    "todo_tasks": 0,
+    "wip_tasks": 0
+  },
+  "project_name": "Spec-Driven",
+  "prompt_seq": 1,
+  "resume_token": "resume-1782591442438658717",
+  "session_id": "session-1782591442438654489",
+  "started_at": "2026-06-27T20:17:22Z",
+  "state": "stopped",
+  "state_version": 1,
+  "updated_at": "2026-06-27T20:17:22Z"
+}
