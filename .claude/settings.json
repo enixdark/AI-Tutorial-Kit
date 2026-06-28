@@ -1,0 +1,29 @@
+{
+  "extraKnownMarketplaces": {
+    "awesome-toolkit": {
+      "source": {
+        "source": "registry",
+        "registry": "claude-code-toolkit"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "system@awesome-toolkit": true,
+    "workflow@awesome-toolkit": true,
+    "memory@awesome-toolkit": true,
+    "development@awesome-toolkit": true
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/cqshinn/GIT/AI-Tutorial-Kit/.claude/hooks/init-transition.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
