@@ -91,3 +91,88 @@ so that I can access my account.
 #### Phase 2: Design
 
 Đây là phase sẽ mang hướng thuần góc nhìn Technical/Software Architecture.
+
+Đàu ra là một file design với cấu trúc
+
+```bash
+specs/{feature}/design.md
+```
+
+Trong file này sẽ bao gồm các nội dung:
+- Tổng quan (Overview) - Cách tiếp cận giải pháp và các quyết định cốt lõi
+- Kiến trúc (Architecture) - Biểu đồ Mermaid hiển thị cấu trúc hệ thống
+- Thành phần (Components) - Các giao diện (interfaces) và vai trò/nhiệm vụ
+- Mô hình dữ liệu (Data Models) - Các interface TypeScript kèm theo quy tắc xác thực (validation)
+- Xử lý lỗi (Error Handling) - Các loại lỗi và chiến lược khôi phục/xử lý lỗi
+- Chiến lược kiểm thử (Testing Strategy) - Các danh mục kiểm thử và mức độ bao phủ (coverage)
+
+Về mặt technical phần lớn content trong file này sẽ được mô tả dưới dạng biểu đồ sử dụng công cụ mermaid đẻ visualization 
+Ví dụ 
+
+![image](setup_8.png)
+
+Về Data architecture sẽ thể hiện design model tương tự sử dụng db diagram
+
+```bash
+interface User {
+  id: string;           // UUID, required
+  email: string;        // Valid email format
+  passwordHash: string; // Bcrypt hash
+  createdAt: Date;
+  lastLogin?: Date;
+}
+```
+
+#### Phase 3: Tasks
+
+Trong bất kỳ giai đoạn của kiến trúc nào sau khi đã chốt giải pháp thì khâu lên kế hoạch và break thành các công việc cụ thể.
+
+Kết quả đầu ra của phase này là 1 file 
+```bash
+specs/{feature}/tasks.md
+```
+
+Bao gồm nội dung:
+
+* **Danh sách công việc (Numbered checkbox list)** - Các bước lập trình tăng tiến (incremental steps)
+* **Tham chiếu yêu cầu (Requirement references)** - Khả năng truy xuất nguồn gốc nguồn gốc đối với các yêu cầu ban đầu (traceability)
+* **Tác vụ kiểm tra (Checkpoint tasks)** - Các điểm xác thực và nghiệm thu (chạy kiểm thử - run tests)
+
+Ví dụ 
+```bash
+## Tasks
+
+- [ ] 1. Set up authentication module structure
+  _Requirements: 1.1_
+
+- [ ] 2. Implement user data model
+  - [ ] 2.1 Create User interface
+  - [ ] 2.2 Add validation rules
+  - [ ] 2.3 Write unit tests
+  _Requirements: 1.2, 1.3_
+
+- [ ] 3. Checkpoint - Verify all tests pass
+
+- [ ] 4. Implement login endpoint
+  _Requirements: 1.1, 1.4_
+```
+
+Trong trường hợp cần mô tả kỹ hơn bạn có thể sử dụng các quy tắc (rules) cụ thể hơn 
+
+| Quy tắc (Rule) | Mô tả (Description) |
+| :--- | :--- |
+| **Chỉ tác vụ lập trình** <br>*(Coding tasks only)* | Không bao gồm triển khai (deployment), viết tài liệu, hoặc kiểm thử thủ công (manual testing) |
+| **Tăng tiến** <br>*(Incremental)* | Mỗi tác vụ đều được xây dựng tiếp nối dựa trên các tác vụ trước đó |
+| **Điểm kiểm tra** <br>*(Checkpoints)* | Chạy các bài kiểm thử (tests) sau mỗi 2 đến 3 tác vụ |
+| **Khả năng truy vết** <br>*(Traceability)* | Tham chiếu đến các yêu cầu ban đầu bằng cú pháp `_Requirements: X.Y_` |
+| **Tối đa 2 cấp độ** <br>*(Max 2 levels)* | Chỉ bao gồm cấp cao nhất (1, 2, 3) và các tác vụ con (2.1, 2.2) |
+
+Sau khi kết thúc 3 phase, agent sẽ hỏi bạn chuyển sang giai đoạn thực thi.
+Tuy nhiên 1 lưu ý, thực tiễn đôi khi bạn sẽ cần phải chuyển về task trước đó bạn có thể sử dụng lệnh gửi cho agent để thực hiện lại, và sẽ bắt đầu lại từ quy trình trước đó.
+
+| Trạng thái hiện tại <br>*(Current)* | Tình huống kích hoạt <br>*(Trigger)* | Hành động <br>*(Action)* |
+| :--- | :--- | :--- |
+| **Design** *(Thiết kế)* | Yêu cầu bị mơ hồ <br>*(Requirement ambiguous)* | ”Should we update requirements?” <br>*(Chúng ta có nên cập nhật tài liệu yêu cầu không?)* |
+| **Tasks** *(Nhiệm vụ)* | Phát hiện lỗ hổng thiết kế <br>*(Design gap found)* | ”Should we update design?” <br>*(Chúng ta có nên cập nhật bản thiết kế không?)* |
+| **Execute** *(Triển khai)* | Tác vụ bị chặn/nghẽn <br>*(Task blocked)* | ”Should we add a task?” <br>*(Chúng ta có nên thêm một tác vụ mới không?)* |
+
