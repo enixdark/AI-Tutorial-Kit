@@ -30,17 +30,40 @@ Sơ đồ flow của FIRE
 #### Dự án của bạn không phải lúc nào cũng cần tuân theo Domain-Design Driven
 - Nếu dự án của bạn không cần mô hình hóa tên miền phức tạp (Domain-Driven Design), FIRE sẽ không ép buộc bạn phải làm điều đó. Tài liệu thiết kế (Design docs) sẽ chỉ xuất hiện khi mức độ phức tạp thực sự đòi hỏi.
 
-# Các khái niệm thành phần cốt lỗi của FỈRE 
+# Các khái niệm thành phần cốt lỗi của FỈRE
+
+Cấu trúc folder của FIRE Flow
+
+```bash
+project/
+├── .specsmd/
+│   └── fire/                    # FIRE flow definition
+│       └── agents/              # Agent definitions
+│
+└── .specs-fire/                 # Project artifacts
+    ├── state.yaml               # Central state tracking
+    ├── standards/               # Project standards
+    │   ├── constitution.md      # Universal policies (always inherited)
+    │   ├── tech-stack.md        # Technology choices
+    │   ├── coding-standards.md  # Code conventions
+    │   └── folder-structure.md  # Directory layout
+    ├── intents/                 # Intent documentation
+    │   └── {intent-id}/
+    │       ├── brief.md
+    │       └── work-items/
+    ├── runs/                    # Run logs
+    └── walkthroughs/            # Generated documentation
+```
 
 ### Mục đích (Intent)
 
 Item này mô tả mục tiêu giúp mang lại giá trị (value) cho người dùng. Nó được ghi nhận thông qua cuộc hội thoại có định hướng cụ thể hơn là cần các tài liệu đặc tả (requirements) dài dòng.
 
 ```yaml
-intent:  
-  id: auth-system  
-  title: User Authentication System  
-  status: in_progress  
+intent:
+  id: auth-system
+  title: User Authentication System
+  status: in_progress
   priority: high
 ```
 
@@ -49,10 +72,10 @@ intent:
 Khi đã xác định mục đích, break thành các đơn vị công việc riêng biệt, mỗi đầu công việc sẽ hoàn thành trong một step ở lượt phase chạy (Run) duy nhất.
 
 ```yaml
-work_item:  
-  id: create-user-schema  
-  title: Create user database schema  
-  complexity: low  
+work_item:
+  id: create-user-schema
+  title: Create user database schema
+  complexity: low
   mode: autopilot  # 0 checkpoints
 ```
 
@@ -64,3 +87,4 @@ Thể hiện chu kỳ thực thi duy nhất cho một đầu việc (Work). Hệ
 
 Được tạo ra sau mỗi lượt chạy (Run)). Tài liệu này ghi lại những gì đã thay đổi, lý do tại sao thay đổi và cách thức để xác thực (verify) thay đổi đó.
 
+# References
