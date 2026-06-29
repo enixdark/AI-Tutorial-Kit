@@ -87,7 +87,7 @@ Kết quả là một bản tài liệu mô tả được sinh ra
 .specs-fire/intents/{intent-id}/work-items/{id}.md
 ```
 
-ví dụ về nội dung 
+ví dụ về nội dung
 
 ```bash
 # Create User Database Schema
@@ -107,7 +107,7 @@ ví dụ về nội dung
 None - first work item
 ```
 
-Có 2 điểm cần lưu ý 
+Có 2 điểm cần lưu ý
 
 ### Mức độ phức tạp (Complexity Levels)
 
@@ -140,5 +140,132 @@ work_items:
 
   - id: session-middleware
     depends_on: [login-endpoint]
+```
+
+### Thực thi (Run)
+
+Run là một chu kỳ thực thi đơn lẻ cho một hạng mục công việc (Work Item)). Nó có tính nguyên tử (atomic): hoặc là hoàn thành thành công, hoặc là quay lui (roll back) về trạng thái ban đầu."
+
+dưới đây là chu trình của thực thi (Run)
+
+![image](setup_6.png)
+
+Để tracking theo dõi bạn có thể tìm trong đường dẫn sau:
+```bash
+.specs-fire/runs/{id}.yaml
+```
+
+```yaml
+run:
+  id: 1
+  work_item_id: user-schema
+  intent_id: auth-system
+  mode: autopilot
+  started: 2024-01-15T10:30:00Z
+  completed: 2024-01-15T10:32:00Z
+  status: success
+  files:
+    created:
+      - migrations/20240115_create_users.sql
+      - src/models/user.ts
+    modified:
+      - src/models/index.ts
+    deleted: []
+  walkthrough: walkthroughs/run-fabriqa-2026-001-user-schema.md
+```
+
+Sau cùng kết quả của lượt thực thi là một file chỉ dẫn (walkthrough)
+
+```yaml
+# Run run-fabriqa-2026-001: user-schema
+
+## Summary
+Created user database schema with email/password authentication fields.
+
+## Files Changed
+
+### Created
+- `migrations/20240115_create_users.sql`
+  - Users table with id, email, password_hash, created_at, updated_at
+  - Unique index on email
+  - Soft delete with deleted_at column
+
+- `src/models/user.ts`
+  - User model class with TypeORM decorators
+  - Password hashing on save
+  - Email validation
+
+### Modified
+- `src/models/index.ts`
+  - Added User export
+
+## Key Decisions
+- Used UUID for user IDs (portable across databases)
+- Added soft delete for GDPR compliance
+- bcrypt with cost factor 12 for password hashing
+
+## Verification Steps
+1. Run `npm run migrate` to apply schema
+2. Verify table: `SELECT * FROM information_schema.tables WHERE table_name = 'users'`
+3. Run tests: `npm test -- --grep "User model"`
+
+## Test Coverage
+- `tests/models/user.test.ts` - 4 tests added
+  - Creates user with valid email
+  - Rejects duplicate email
+  - Hashes password on save
+  - Supports soft delete
+```
+
+Bằng việc sử dụng walkthrough, file được sinh ra giúp cho
+Lưu vết cho mọi thay đổi (Lịch sử ghi nhận đầy đủ mọi thay đổi). Dễ dàng đánh giá/review mà không cần phải đọc từng dòng code và lưu lại ngữ cảnh (context) giúp cho người tiếp nhận source có thể nắm bắt nhanh chóng.
+
+bên cạnh đó FIRE Flow cũng sử dụng file state để lưu trữ trạng thái cụ thể
+
+```bash
+.specs-fire/state.yaml:
+```
+
+```yaml
+project:
+  name: my-project
+  created: 2024-01-15T09:00:00Z
+  framework: fire-v1
+
+workspace:
+  type: brownfield
+  structure: monolith
+  default_mode: confirm
+
+intents:
+  - id: auth-system
+    title: User Authentication
+    status: in_progress
+    priority: high
+    work_items:
+      - id: user-schema
+        status: done
+        complexity: low
+        depends_on: []
+        completed_in_run: 1
+      - id: login-endpoint
+        status: in_progress
+        complexity: medium
+        depends_on: [user-schema]
+        started_in_run: 2
+      - id: session-management
+        status: pending
+        complexity: high
+        depends_on: [login-endpoint]
+
+summary:
+  total_intents: 1
+  intents_done: 0
+  total_work_items: 3
+  work_items_done: 1
+
+runs:
+  last_completed: 1
+  active: 2
 ```
 
