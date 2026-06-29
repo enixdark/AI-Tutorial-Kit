@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Number Calculator</title>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Prime Number Calculator</h1>
+
+    <div class="calculator-section">
+      <form id="calculatorForm">
+        <div class="form-group">
+          <label for="rangeInput">Maximum Number:</label>
+          <input
+            type="number"
+            id="rangeInput"
+            placeholder="Enter a number (2 - 1,000,000)"
+            min="2"
+            max="1000000"
+            required
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calculate Primes</button>
+      </form>
+
+      <div id="errorContainer" class="error-message" style="display: none;"></div>
+
+      <div id="loadingSpinner" class="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p id="loadingMessage">Calculating...</p>
+      </div>
+    </div>
+
+    <div id="resultsContainer" class="results-section" style="display: none;">
+      <h2>Results</h2>
+
+      <div class="result-summary">
+        <div class="result-item">
+          <label>Range:</label>
+          <span id="resultRange">-</span>
+        </div>
+        <div class="result-item">
+          <label>Prime Count:</label>
+          <span id="primeCount" class="prime-count-large">-</span>
+        </div>
+        <div class="result-item">
+          <label>Computation Time:</label>
+          <span id="computeTime">-</span> ms
+        </div>
+        <div class="result-item">
+          <label>Timestamp:</label>
+          <span id="resultTimestamp">-</span>
+        </div>
+      </div>
+
+      <button id="togglePrimesBtn" class="btn btn-secondary">Show Prime List</button>
+
+      <div id="primeListContainer" class="prime-list" style="display: none;">
+        <h3>Prime Numbers</h3>
+        <div id="primeList" class="prime-numbers"></div>
+      </div>
+    </div>
+
+    <div class="history-section">
+      <h2>Calculation History</h2>
+
+      <button id="clearHistoryBtn" class="btn btn-danger" style="display: none;">Clear All History</button>
+
+      <div id="emptyHistoryMessage" class="empty-state">
+        No calculations yet. Start by entering a number above.
+      </div>
+
+      <div id="historyContainer" class="history-list" style="display: none;">
+        <ul id="historyList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="src/InputValidator.js"></script>
+  <script src="src/PrimeCalculator.js"></script>
+  <script src="src/StorageManager.js"></script>
+  <script src="src/HistoryManager.js"></script>
+  <script src="src/DisplayManager.js"></script>
+  <script src="src/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+project:
+  name: Sample Project
+  description: FIRE Flow Sample Project
+  created: 2026-06-30T00:00:00Z
+  fire_version: 0.1.8
+workspace:
+  type: greenfield
+  structure: monolith
+  autonomy_bias: balanced
+  run_scope_preference: single
+  run_scope_history: []
+intents:
+  - id: product-card-active-badge
+    title: Product Card with Active Status Badge
+    status: in_progress
+    work_items:
+      - id: product-card-component
+        title: Create ProductCard Component
+        complexity: low
+        mode: autopilot
+        status: completed
+        run_id: run-sample-001
+        completed_at: 2026-06-29T18:49:08.893Z
+      - id: active-status-badge
+        title: Add Active Status Badge Logic
+        complexity: low
+        mode: autopilot
+        status: completed
+        run_id: run-sample-001
+        completed_at: 2026-06-29T18:49:08.893Z
+      - id: component-tests
+        title: Write ProductCard Tests
+        complexity: low
+        mode: autopilot
+        status: completed
+        run_id: run-sample-001
+        completed_at: 2026-06-29T18:49:08.893Z
+      - id: documentation
+        title: Create Usage Documentation
+        complexity: low
+        mode: autopilot
+        status: completed
+        run_id: run-sample-001
+        completed_at: 2026-06-29T18:49:08.893Z
+runs:
+  active: []
+  completed:
+    - id: run-sample-001
+      scope: wide
+      work_items:
+        - id: product-card-component
+          intent: product-card-active-badge
+          mode: autopilot
+        - id: active-status-badge
+          intent: product-card-active-badge
+          mode: autopilot
+        - id: component-tests
+          intent: product-card-active-badge
+          mode: autopilot
+        - id: documentation
+          intent: product-card-active-badge
+          mode: autopilot
+      started: 2026-06-29T18:45:08.668Z
+      completed: 2026-06-29T18:49:08.893Z
