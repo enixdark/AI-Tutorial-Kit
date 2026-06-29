@@ -81,3 +81,64 @@ work_item:
   status: pending
 ```
 
+Kết quả là một bản tài liệu mô tả được sinh ra
+
+```
+.specs-fire/intents/{intent-id}/work-items/{id}.md
+```
+
+ví dụ về nội dung 
+
+```bash
+# Create User Database Schema
+
+## Definition of Done
+- [ ] Migration file created
+- [ ] User model with typed fields
+- [ ] Indexes on email field
+- [ ] Tests for model validation
+
+## Technical Notes
+- Use UUID for primary key
+- Add soft delete support
+- Email must be unique and indexed
+
+## Dependencies
+None - first work item
+```
+
+Có 2 điểm cần lưu ý 
+
+### Mức độ phức tạp (Complexity Levels)
+
+| Cấp độ (Level) | Mô tả (Description) | Chế độ điển hình (Typical Mode) |
+| :--- | :--- | :--- |
+| **low** *(Thấp)* | < 50 dòng code, file đơn lẻ, định nghĩa rõ ràng | **Autopilot** *(Tự động)* |
+| **medium** *(Vừa)* | 50-200 dòng code, 2-5 files, có một vài quyết định cần cân nhắc | **Confirm** *(Xác nhận)* |
+| **high** *(Cao)* | 200+ dòng code, 5+ files, có ảnh hưởng đến kiến trúc hệ thống | **Validate** *(Xác thực)* |
+
+<br>
+
+### Trạng thái đầu việc (Work Item States)
+
+| Trạng thái (State) | Mô tả (Description) |
+| :--- | :--- |
+| **pending** | Đang chờ, chưa bắt đầu |
+| **in_progress** | Đang trong quá trình thực thi |
+| **blocked** | Bị chặn/nghẽn (do chưa đáp ứng được điều kiện tiên quyết hoặc các phụ thuộc khác) |
+| **done** | Đã hoàn thành thành công |
+
+Note: trong quá trình triển khai đôi khi một workload item sẽ ưu tiên hơn các item khác, FIRE Flow đưa cho bạn thiết kế để đảm bảo thứ tự chạy của item thông qua cơ chế dependeny
+
+```yaml
+work_items:
+  - id: user-schema
+    depends_on: []
+
+  - id: login-endpoint
+    depends_on: [user-schema]  # Must complete first
+
+  - id: session-middleware
+    depends_on: [login-endpoint]
+```
+
