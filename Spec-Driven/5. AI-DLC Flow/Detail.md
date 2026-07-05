@@ -1,6 +1,107 @@
 # Context
 
 Trong phần này chúng ta sẽ đi sâu hơn và phân tích một số khái niệm như intent, bolt và unit trong AI-DLC
+Trước tiên chúng ta sẽ tìm hiểu cách AI-DLC quản lý và lưu trữ context như nào
+
+### Bank Memory
+
+AI-DLC đưa ra thiết kê hệ thống Bank Memory để lưu trữ các thông tin dưới dạng tệp tin (file-based) cho tất cả các tạo tác (artifcat) của dự án với khả năng truy xuất nguồn gốc toàn diện (Traceability)
+Các tạo tác (artifact) được lưu trữ dưới dạng markdown để thân thiện với người dùng (human reader) và thiết kê để đảm bảo AI có thể truy cập lấy thông tin (ngữ cảnh) nhanh chóng.
+
+Dưới đây là cấu trúc lưu trữ tạo tác trong hệ thống memory bank
+```bash
+memory-bank/
+├── intents/                   # Your captured intents
+│   └── {intent-name}/
+│       ├── requirements.md
+│       ├── system-context.md
+│       └── units/
+│           └── {unit-name}/
+│               ├── unit-brief.md
+│               ├── stories/
+│               └── bolts/
+├── bolts/                     # Bolt execution records
+│   └── {bolt-id}/
+│       ├── domain-model.md
+│       ├── technical-design.md
+│       └── implementation/
+├── standards/                 # Project standards
+│   ├── tech-stack.md
+│   ├── coding-standards.md
+│   ├── architecture.md
+│   └── ux-guide.md
+└── operations/                # Deployment context
+    ├── environments.md
+    └── runbooks/
+```
+
+Có tất cả 4 loại tạo tác (artifact)
+Trong đó
+- Intents, bolt húng ta sẽ tìm hiểu sau đó.
+
+- Standard là quy ước chuẩn về quy tắc techstack , guiding principle.
+Ví dụ
+
+##### tech-stack.md
+
+```
+# Tech Stack
+
+## Languages
+- **Primary**: TypeScript 5.x
+- **Secondary**: Python 3.11+ (for ML pipelines)
+
+## Frontend
+- **Framework**: React 18 with Next.js 14
+- **Styling**: Tailwind CSS
+- **State**: Zustand
+
+## Backend
+- **Runtime**: Node.js 20 LTS
+- **Framework**: Express.js
+- **ORM**: Prisma
+
+## Database
+- **Primary**: PostgreSQL 15
+- **Cache**: Redis 7
+- **Search**: Elasticsearch 8
+
+## Infrastructure
+- **Cloud**: AWS
+- **Containers**: Docker
+- **Orchestration**: ECS Fargate
+- **CI/CD**: GitHub Actions
+```
+
+##### architecture.md
+
+```bash
+# Architecture
+
+## Style
+- **Pattern**: Clean Architecture
+- **API**: REST with OpenAPI 3.0
+- **Communication**: Synchronous HTTP, async via SQS
+
+## Layers
+1. **Presentation**: Controllers, DTOs
+2. **Application**: Use cases, services
+3. **Domain**: Entities, value objects, events
+4. **Infrastructure**: Repositories, external services
+
+## API Design
+- Resource-based URLs
+- HTTP methods for actions
+- JSON request/response bodies
+- Pagination with cursor-based approach
+
+## State Management
+- Server state: React Query
+- Client state: Zustand
+- Form state: React Hook Form
+```
+
+Operations là tài liệu liên quan tới môi trường và hướng dẫn triển khai.
 
 ### Intent
 
@@ -219,3 +320,4 @@ memory-bank/bolts/{bolt-id}/
 ├── implementation-walkthrough.md # Developer notes from Stage 2
 └── test-walkthrough.md        # Test results from Stage 3
 ```
+
