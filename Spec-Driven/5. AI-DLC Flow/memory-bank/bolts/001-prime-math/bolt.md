@@ -2,20 +2,21 @@
 id: 001-prime-math
 unit: 001-prime-math
 intent: 001-prime-calculation
-type: simple-construction-bolt
+type: ddd-construction-bolt
 status: planned
 stories:
   - 001-prime-detection
   - 002-sum-in-range
-  - 003-edge-cases
-created: 2026-07-06T00:00:00Z
+created: 2026-07-08T00:00:00Z
 started: null
 completed: null
 current_stage: null
 stages_completed: []
 
 requires_bolts: []
-enables_bolts: [002-cli-handler]
+enables_bolts:
+  - 002-prime-math
+  - 003-cli-handler
 requires_units: []
 blocks: false
 
@@ -30,71 +31,55 @@ complexity:
 
 ## Overview
 
-Core mathematical engine for prime number detection and summation. This bolt implements the foundational algorithms that will be called by the CLI interface.
+Core prime number mathematics engine. Implements efficient prime detection and range summation with trial division and Sieve of Eratosthenes algorithms.
 
 ## Objective
 
-Implement fast, correct algorithms for detecting prime numbers and calculating their sum within ranges, with comprehensive handling of edge cases.
+Establish foundational prime number detection and range summation logic that the CLI handler will depend on. Cover core functionality and basic edge case handling.
 
 ## Stories Included
 
-- **001-prime-detection**: Implement prime detection for single number (Must)
-- **002-sum-in-range**: Implement sum calculation for range (Must)
-- **003-edge-cases**: Handle edge cases and boundary conditions (Must)
+- **001-prime-detection**: Implement is_prime(n) function with trial division (Must)
+- **002-sum-in-range**: Implement sum_primes_in_range(start, end) using Sieve algorithm (Must)
 
 ## Bolt Type
 
-**Type**: simple-construction-bolt
+**Type**: ddd-construction-bolt  
+**Definition**: `.specsmd/aidlc/templates/construction/bolt-types/ddd-construction-bolt.md`
 
-**Stages**:
-1. Implementation - Write functions and logic
-2. Testing - Unit tests, acceptance criteria verification
-3. Completion - Code review, finalization
+## Stages
+
+- [ ] **1. Domain Model**: Define Prime and Range entities, operations, invariants → `ddd-01-domain-model.md`
+- [ ] **2. Technical Design**: Algorithm selection, performance constraints, implementation strategy → `ddd-02-technical-design.md`
+- [ ] **3. Implement**: Write is_prime() and sum_primes_in_range() functions with full docstrings
+- [ ] **4. Test**: Unit tests for both functions, verify test report → `ddd-03-test-report.md`
 
 ## Dependencies
 
 ### Requires
+
 - None (foundational bolt)
 
 ### Enables
-- Bolt 002-cli-handler (CLI needs math engine to call)
+
+- **002-prime-math**: Edge case handling depends on working prime logic
+- **003-cli-handler**: CLI handler needs these functions to operate
 
 ## Success Criteria
 
-- [ ] All 3 stories implemented and working
+- [ ] `is_prime(n)` correctly identifies primes: 2,3,5,7,11... return True; 0,1,4,6... return False
+- [ ] `sum_primes_in_range(1, 10)` returns 17
+- [ ] `sum_primes_in_range(1, 20)` returns 77
+- [ ] Large range [1, 10000] completes in < 100ms
+- [ ] Edge cases handled: negative numbers, single values
+- [ ] Code coverage > 80%
 - [ ] All acceptance criteria from stories met
-- [ ] Unit tests written and passing (coverage > 80%)
-- [ ] Edge cases handled correctly
-- [ ] Range 1-10000 sum calculated in < 100ms
 - [ ] Code reviewed and approved
-
-## Expected Outputs
-
-- `prime_math.py` - Module containing:
-  - `is_prime(n)` function
-  - `sum_primes_in_range(start, end)` function
-- `test_prime_math.py` - Comprehensive test suite
-- Documentation of algorithms and assumptions
-
-## Implementation Notes
-
-- **Prime Detection**: Trial division (simple, O(√n))
-- **Range Summation**: Sieve of Eratosthenes (faster for large ranges, O(n log log n))
-- **Edge Cases**: Handle 0, 1, 2, negatives, large numbers
-- **No External Libraries**: Pure Python only
-- **Performance Target**: 1-10000 in < 100ms
-
-## Risks & Mitigations
-
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Algorithm complexity | Low | Performance miss | Use Sieve for large ranges |
-| Edge case oversights | Medium | Correctness issues | Exhaustive test cases |
-| Integer overflow (very large n) | Low | Calculation errors | Test with sys.maxsize |
 
 ## Notes
 
-- This is the foundation for all calculation logic
-- Quality and correctness are more important than v1 performance
-- v2 can add caching/memoization if needed
-- Thoroughly test before moving to CLI handler
+- Performance critical: Sieve of Eratosthenes needed for large ranges
+- Trial division simpler for single checks, but Sieve faster for ranges
+- Document algorithm selection rationale in technical design
+- No external dependencies (standard library only)
+- Negative numbers and 0,1 must return False for is_prime()
